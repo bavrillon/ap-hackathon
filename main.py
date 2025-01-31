@@ -24,5 +24,5 @@ while TIME <= 30 :
         if client.autonomy() <= autonomie_min :
             prochain_client = client.ID
     tps_trajet = Camion.parametres_trajet(destination, usine)[0] + Camion.parametres_trajet(prochain_client, usine)[0]
-    reseau.file_events.ajouter_evenement(tps_trajet, depart, destination, usine)
-    COST += Camion.parametres_trajet(depart, usine)[1]                          # On facture le trajet client_depart -> usine
+    reseau.file_events.ajouter_evenement(tps_trajet, destination, prochain_client, usine)
+    COST += Camion.parametres_trajet(destination, usine)[1]                          # On facture le trajet client_depart -> usine
