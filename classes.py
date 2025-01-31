@@ -41,6 +41,9 @@ class Client:
         def bouteilles_tot(self):
             return(self.bouteilles_pleines + self.bouteilles_vides)
 
+        def autonomy(self):
+            return(self.bouteilles_pleines/self.consumption)
+
         def actualisation(self, detla_t):
             self.bouteilles_pleines -= self.consumption*delta_t
             self.bouteilles_vides += self.consumption*delta_t
