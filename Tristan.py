@@ -2,6 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
+from classes import *
+
+
 
 
 dico_cout = {}
@@ -19,30 +22,49 @@ def trajet(camion, usine, client):
     dico_cout[camion] += [cout_trajet]
 
 
-def livraison_client_déchargement(camion, client):
+def livraison_client(camion, client):
     # Cas où les camions sont toujours pleins car ils repassent à l'usine après chaque livraison
-    stockage_restant_client = client.capacity - client.bouteille_tot
-    if stockage_restant_client < 0 :
-        print("Problème, trop de bouteilles stockées par rapport à la capacité de stockage")
-    elif stockage_restant_client > 80 :
-        client.bouteilles_pleines += 80
-        camion.bouteilles_pleines -= 80
-    else :
-        client.bouteilles_pleines += stockage_restant
-        camion.bouteille_pleines -= stockage_restant
-    
-def livraison_client_chargement(camion, client): 
+    echange1 = min(client.bouteilles_vides, camion.bouteilles_pleines)
+    camion.bouteilles_pleines -= echange1
+    camion.bouteilles_vides += echange1
+    client.bouteilles_pleines += echange1
+    client.bouteilles_vides -= echange1
+    if camion.bouteilles_pleines == 0 :
+        echange_2a = min(camion.capacity-camion.bouteilles_tot(), client.bouteilles_vides)
+        camion.bouteilles_vides += echange_2a
+        client.bouteilles_vides -= echange_2a
+    else:
+        echange_2b = min(client.capacity-client.bouteilles_tot(), camion.bouteilles_pleines)
+        client.bouteilles_plaines += echange_2b
+        camion.bouteilles_pleines -= echange_2b
+    assert(camion.bouteilles_tot <= camion.capacity)
+    assert(usine.bouteilles_tot <= usine.capacity)
+    assert(client.bouteilles_tot <= client.capacity)
+
+
+
+
+def recharge_camion(camion, client):
     # Cas où les camions sont toujours pleins car ils repassent à l'usine après chaque livraison
-    stockage_restant_camion = camion.capacity - camion.bouteille_tot
-    if stockage_restant_camion< 0 :
-        print("Problème, trop de bouteilles stockées par rapport à la capacité de stockage")
-    elif stockage_restant_camion > client.bouteilles_vides :
-        camion.bouteilles_vides += client.bouteilles_vides
-        client.bouteilles_vides = 0
-    else :
-        camion.bouteilles_vides += stockage_restant_camion
-        client.bouteilles_vides -= stockage_restant_camion
-    
+    echange1 = min(camion.bouteilles_vides, usine.bouteilles_pleines)
+    usine.bouteilles_pleines -= echange1
+    usine.bouteilles_vides += echange1
+    camion.bouteilles_pleines += echange1
+    camion.bouteilles_vides -= echange1
+    if usine.bouteilles_pleines == 0 :
+        echange_2a = min(usine.capacity-usine.bouteilles_tot(), camion.bouteilles_vides)
+        usine.bouteilles_vides += echange_2a
+        camion.bouteilles_vides -= echange_2a
+    else:
+        echange_2b = min(camion.capacity-camion.bouteilles_tot(), usine.bouteilles_pleines)
+        camion.bouteilles_plaines += echange_2b
+        usine.bouteilles_pleines -= echange_2b
+        assert(camion.bouteilles_tot <= camion.capacity)
+    assert(usine.bouteilles_tot <= usine.capacity)
+    assert(client.bouteilles_tot <= client.capacity)
+
+
+
 
 
 # Attention se dictionnaire est pour l'instant journalier, il faudrait refaire usine.refill au bout de 24h
