@@ -21,7 +21,7 @@ class Usine:
         self.ID=ID
         self.bouteilles_pleines=init
         self.bouteilles_vides=0
-        self.btot=self.bp+self.bv
+        self.bouteilles_tot=self.bouteilles_pleines+self.bouteilles_vides
 
 class Client:
     def __init__(self, coord_x,coord_y,capacity,init, consumption,ID):
@@ -33,7 +33,7 @@ class Client:
         self.ID=ID
         self.bouteilles_pleines=0
         self.bouteilles_vides=init
-        self.btot=self.bp+self.bv
+        self.bouteilles_tot=self.bouteilles_pleines+self.bouteilles_vides
         
 
 class Camion:
@@ -41,7 +41,7 @@ class Camion:
         self.id=id
         self.bouteilles_vides=0
         self.bouteilles_pleines=0
-        self.btot=self.bp+self.bv
+        self.bouteilles_tot=self.bouteilles_pleines+self.bouteilles_vides
 
 class Trajet:
     def __init__(self, ID, date_start, date_end, departure, destination, nb_bouteilles):
