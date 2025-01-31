@@ -1,19 +1,18 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from scipy.spatial import Voronoi, voronoi_plot_2d
+from shapely.geometry import Point, Polygon
+from classes import *
 
 dfc = pd.read_csv("data/clients.csv")
-dfc.head(4)
-
 dfp = pd.read_csv("data/plants.csv")
-dfp.head(4)
 
 plt.scatter(dfc.coord_x, dfc.coord_y, s=1)
 plt.scatter(dfp.coord_x, dfp.coord_y, s=10, marker="^", c='r')
+plt.show()
 
-# +
-from scipy.spatial import Voronoi, voronoi_plot_2d
-from shapely.geometry import Point, Polygon
+
 
 #Création du diagramme de Voronoï
 vor = Voronoi(dfp[['coord_x','coord_y']])
@@ -38,18 +37,29 @@ polygones.append(Polygon(((-20, 4290), (9.25157515e+01,  4.58029393e+03), (1.275
 polygones.append(Polygon(((-5.02933323e+02,  4.34002199e+03), (4.73252103e+01,  4.61536577e+03), (9.25157515e+01,  4.58029393e+03), (-20, 4290))))
 
 #Test d'appartenance des clients aux polygones
-d = {poly : [] for poly in polygones}
-for k in range(dfc.shape[0]):
+du = {poly : [] for poly in polygones}  #dictionnaire qui lie usines et polygones
+for poly in du:
+    for usine in reseau.usines:
+        if poly.contains(Point(usine.coord_x, usine.coord_y)):
+            du[poly]=usine        
+
+d1 = {poly : [] for poly in polygones}
+d2 = {usine : [] for usine in reseau.usines}    #dictionnaire à donner au groupe !
+for k in range(dfc.shape[0]):   #on parcourt les clients
     client = Point(dfc.iloc[k, 0:2]) #on récupère les coord des clients, on en fait un objet de type Point
     for poly in polygones:
         if poly.contains(client): #si le client est dans la zone d'influence de l'usine
-            d[poly].append(client)
+            d1[poly].append(client)
+            for cli in reseau.clients:
+                if cli.coord_x==client.x and cli.coord_y==client.y:
+                    d2[du[poly]].append(cli)
+
             
 #Affichage des zones
 voronoi_plot_2d(vor, show_vertices=False, line_width = 0.5)
-for poly in d:
-    x = [client.x for client in d[poly]]
-    y = [client.y for client in d[poly]]
+for poly in d1:
+    x = [client.x for client in d1[poly]]
+    y = [client.y for client in d1[poly]]
     plt.scatter(x, y, s=0.4)
 #plt.xlim(-2000, 2000)
 #plt.ylim(3000, 5500)
@@ -61,21 +71,7 @@ plt.show()
 
 #Vérifions s'il manque des clients (il en manque 21 à cause de la récolte manuelle)
 cpt=0
-for cle in d:
-    cpt+=len(d[cle])
+for cle in d1:
+    cpt+=len(d1[cle])
 print(cpt)
-# -
-
-
-
-
-# +
-
-    
-    
-# -
-
-
-
-
 
