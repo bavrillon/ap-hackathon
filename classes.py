@@ -55,11 +55,27 @@ class Camion:
     def bouteilles_tot(self):
             return(self.bouteilles_pleines + self.bouteilles_vides)
 
-class Trajet:
-    def __init__(self, ID, date_start, date_end, departure, destination, nb_bouteilles):
-        self.ID=ID
-        
-        
+
+class FilePrioriteEvenements:
+    def __init__(self):
+        self.file = []
+    
+    def ajouter_evenement(self, tps_trajet, depart, destination):
+        tps_arrivee = TIME + tps_trajet  
+        heapq.heappush(self.file, (tps_arrivee, depart, destination))
+        COST += Camion.parametres_trajet(depart, destination)[1]
+
+    def obtenir_prochain_evenement(self):
+        prochain_evenement = heapq.heappop(self.file)
+        delta_t = TIME
+        TIME = prochain_evenement[0]
+        delta_t = TIME - delta_t
+        for usine in reseau.usines :
+            usine.actualisation(delta_t)
+        for client in reseau.clients :
+            client.actualisation(delta_t)
+
+
 
 class Bouteille:
     pass
