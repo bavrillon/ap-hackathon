@@ -8,7 +8,7 @@ BILAN = 0
 
 while TIME <= 30 :
     camion_arrivee = reseau.file_events.obtenir_prochain_evenement()
-    tps_arrivee, depart, destination, caminon = camion_arrivee
+    tps_arrivee, depart, destination, camion = camion_arrivee
     BILAN += Camion.parametres_trajet(destination, camion.usine)[1]      # On facture le trajet usine -> client_arrivée
     delta_t = TIME
     TIME = prochain_camion[0]
