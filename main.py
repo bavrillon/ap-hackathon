@@ -14,6 +14,4 @@ class FilePrioriteEvenements:
         heapq.heappush(self.file, (tps_arrivee, destination))
 
     def recuperer_prochain_evenement(self):
-        if self.file:
-            return heapq.heappop(self.file)
-        return None  
+        return heapq.heappop(self.file)
