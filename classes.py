@@ -19,6 +19,9 @@ class Usine:
         self.init=init
         self.refill=refill
         self.ID=ID
+        self.bp=init
+        self.bv=0
+        self.btot=self.bp+self.bv
 
 class Client:
     def __init__(self, coord_x,coord_y,capacity,init, consumption,ID):
@@ -28,11 +31,17 @@ class Client:
         self.init=init
         self.consumption=consumption
         self.ID=ID
+        self.bp=0
+        self.bv=init
+        self.btot=self.bp+self.bv
         
 
 class Camion:
     def __init__(self,id):
         self.id=id
+        self.bv=0
+        self.bp=0
+        self.btot=self.bp+self.bv
 
 class Trajet:
     def __init__(self, ID, date_start, date_end, departure, destination, nb_bouteilles):
