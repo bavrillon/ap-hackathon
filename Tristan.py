@@ -19,14 +19,16 @@ def livraison_client(camion, client):
     camion.bouteilles_vides += echange1
     client.bouteilles_pleines += echange1
     client.bouteilles_vides -= echange1
+    COST += echange1 * 100
     if camion.bouteilles_pleines == 0 :
         echange_2a = min(camion.capacity-camion.bouteilles_tot(), client.bouteilles_vides)
         camion.bouteilles_vides += echange_2a
         client.bouteilles_vides -= echange_2a
     else:
         echange_2b = min(client.capacity-client.bouteilles_tot(), camion.bouteilles_pleines)
-        client.bouteilles_plaines += echange_2b
+        client.bouteilles_pleines += echange_2b
         camion.bouteilles_pleines -= echange_2b
+        COST += echange2 * 100
     assert(camion.bouteilles_tot <= camion.capacity)
     assert(usine.bouteilles_tot <= usine.capacity)
     assert(client.bouteilles_tot <= client.capacity)
@@ -41,14 +43,16 @@ def recharge_camion(camion, client):
     usine.bouteilles_vides += echange1
     camion.bouteilles_pleines += echange1
     camion.bouteilles_vides -= echange1
+    COST -= echange1 * 40
     if usine.bouteilles_pleines == 0 :
         echange_2a = min(usine.capacity-usine.bouteilles_tot(), camion.bouteilles_vides)
         usine.bouteilles_vides += echange_2a
         camion.bouteilles_vides -= echange_2a
     else:
         echange_2b = min(camion.capacity-camion.bouteilles_tot(), usine.bouteilles_pleines)
-        camion.bouteilles_plaines += echange_2b
+        camion.bouteilles_pleines += echange_2b
         usine.bouteilles_pleines -= echange_2b
+        COST -= echange1 * 40
         assert(camion.bouteilles_tot <= camion.capacity)
     assert(usine.bouteilles_tot <= usine.capacity)
     assert(client.bouteilles_tot <= client.capacity)
