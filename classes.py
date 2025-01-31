@@ -76,7 +76,7 @@ class Camion:
         self.bouteilles_vides += echange1
         client.bouteilles_pleines += echange1
         client.bouteilles_vides -= echange1
-        COST += echange1 * 100
+        BILAN += echange1 * 100
         if self.bouteilles_pleines == 0 :
             echange_2a = min(self.capacity-self.bouteilles_tot(), client.bouteilles_vides)
             self.bouteilles_vides += echange_2a
@@ -85,7 +85,7 @@ class Camion:
             echange_2b = min(client.capacity-client.bouteilles_tot(), self.bouteilles_pleines)
             client.bouteilles_pleines += echange_2b
             self.bouteilles_pleines -= echange_2b
-            COST += echange2 * 100
+            BILAN += echange2 * 100
         assert(self.bouteilles_tot <= self.capacity)
         assert(usine.bouteilles_tot <= usine.capacity)
         assert(client.bouteilles_tot <= client.capacity)
@@ -97,7 +97,7 @@ class Camion:
         usine.bouteilles_vides += echange1
         self.bouteilles_pleines += echange1
         self.bouteilles_vides -= echange1
-        COST -= echange1 * 40
+        BILAN -= echange1 * 40
         if usine.bouteilles_pleines == 0 :
             echange_2a = min(usine.capacity-usine.bouteilles_tot(), self.bouteilles_vides)
             usine.bouteilles_vides += echange_2a
@@ -106,7 +106,7 @@ class Camion:
             echange_2b = min(self.capacity-self.bouteilles_tot(), usine.bouteilles_pleines)
             self.bouteilles_pleines += echange_2b
             usine.bouteilles_pleines -= echange_2b
-            COST -= echange2 * 40
+            BILAN -= echange2 * 40
         assert(self.bouteilles_tot <= self.capacity)
         assert(usine.bouteilles_tot <= usine.capacity)
         assert(client.bouteilles_tot <= client.capacity)
