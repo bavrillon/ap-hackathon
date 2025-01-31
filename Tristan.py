@@ -12,16 +12,6 @@ for camion in Ls_camion :
     dico_cout[camion] = {[]}
 
 
-def trajet(camion, usine, client):
-
-    vitesse = 50
-    cout_kilometrique = 0.10
-    distance = np.sqrt((client.coord_x - usine.coord_x)**2 + (client.coord_y - usine.coord_y)**2)
-    temps = distance / vitesse
-    cout_trajet = cout_kilometrique * distance
-    dico_cout[camion] += [cout_trajet]
-
-
 def livraison_client(camion, client):
     # Cas où les camions sont toujours pleins car ils repassent à l'usine après chaque livraison
     echange1 = min(client.bouteilles_vides, camion.bouteilles_pleines)
@@ -82,22 +72,3 @@ def chargement_usine(camion, usine):
     else :
         camion.bouteille += dico_prod[usine][-1]
         dico_prod[usine][-1] = 0
-
-
-Client
-self.bouteilles_pleines = 0
-self.bouteilles_vides = init
-
-
-methode autonomie
-self.autonomie = client.bouteilles_pleines
-methode bouteille tot
-self.bouteille
-
-Usine
-self.bouteilles_pleines = init
-self.bouteilles_vides = 0
-
-Client
-self.bouteilles_pleines = 0
-self.bouteilles_vides = 0
