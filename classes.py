@@ -52,6 +52,15 @@ class Camion:
         self.bouteilles_pleines=0
         self.capacity=80
         
+    @classmethod
+    def parametres_trajet(cls, depart, destination):
+        vitesse = 50
+        cout_kilometrique = 0.10
+        distance = np.sqrt((depart.coord_x - depart.coord_x)**2 + (destination.coord_y - destination.coord_y)**2)
+        duree_trajet = distance / vitesse
+        cout_trajet = cout_kilometrique * distance
+        return(duree_trajet, cout_trajet)
+    
     def bouteilles_tot(self):
             return(self.bouteilles_pleines + self.bouteilles_vides)
 
