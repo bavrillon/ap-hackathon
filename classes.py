@@ -6,10 +6,7 @@ import pandas as pd
 class Reseau:
     def __init__(self):
         self.usines = []
-        self.clients = []
-        
-reseau = Reseau()
-        
+        self.clients = []        
 
 class Usine:
     def __init__(self, coord_x,coord_y,capacity,init, refill,ID):
@@ -21,7 +18,13 @@ class Usine:
         self.ID=ID
         self.bouteilles_pleines=init
         self.bouteilles_vides=0
-        self.bouteilles_tot=self.bouteilles_pleines+self.bouteilles_vides
+
+    def bouteilles_tot(self):
+        return(self.bouteilles_pleines + self.bouteilles_vides)
+
+    def actualisation(self, detla_t):
+        self.bouteilles_pleines += self.refill*delta_t
+        self.bouteilles_vides -= self.consumption*delta_t
 
 class Client:
     def __init__(self, coord_x,coord_y,capacity,init, consumption,ID):
@@ -33,7 +36,13 @@ class Client:
         self.ID=ID
         self.bouteilles_pleines=0
         self.bouteilles_vides=init
-        self.bouteilles_tot=self.bouteilles_pleines+self.bouteilles_vides
+
+        def bouteilles_tot(self):
+            return(self.bouteilles_pleines + self.bouteilles_vides)
+
+        def actualisation(self, detla_t):
+            self.bouteilles_pleines -= self.consumption*delta_t
+            self.bouteilles_vides += self.consumption*delta_t
         
 
 class Camion:
@@ -41,8 +50,10 @@ class Camion:
         self.id=id
         self.bouteilles_vides=0
         self.bouteilles_pleines=0
-        self.bouteilles_tot=self.bouteilles_pleines+self.bouteilles_vides
         self.capacity=80
+        
+    def bouteilles_tot(self):
+            return(self.bouteilles_pleines + self.bouteilles_vides)
 
 class Trajet:
     def __init__(self, ID, date_start, date_end, departure, destination, nb_bouteilles):
