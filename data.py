@@ -35,8 +35,9 @@ class Camion:
         self.id=id
 
 class Trajet:
-    def __init__(self,ID,start,stop,nb_bouteilles):
+    def __init__(self, ID, date_start, date_end, departure, destination, nb_bouteilles):
         self.ID=ID
+        
         
 
 class Bouteille:
