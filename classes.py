@@ -1,13 +1,16 @@
 import numpy as np 
 import pandas as pd
 import matplotlib.pyplot as plt
-from classes import *
+
+
 
 class Reseau:
     def __init__(self):
         self.usines = []
         self.clients = []
         self.file_events = FilePrioriteEvenements
+
+reseau = Reseau()
 
 class Usine:
     def __init__(self, coord_x,coord_y,capacity,init, refill,ID):
@@ -19,11 +22,12 @@ class Usine:
         self.ID=ID
         self.bouteilles_pleines=init
         self.bouteilles_vides=0
+        self.nature='usine'
 
     def bouteilles_tot(self):
         return(self.bouteilles_pleines + self.bouteilles_vides)
 
-    def actualisation(self, detla_t):
+    def actualisation(self, delta_t):
         self.bouteilles_pleines += self.refill*delta_t
         self.bouteilles_vides -= self.consumption*delta_t
 
@@ -37,6 +41,7 @@ class Client:
         self.ID=ID
         self.bouteilles_pleines=0
         self.bouteilles_vides=init
+        self.nature='client'
 
         def bouteilles_tot(self):
             return(self.bouteilles_pleines + self.bouteilles_vides)
@@ -44,7 +49,7 @@ class Client:
         def autonomy(self):
             return(self.bouteilles_pleines/self.consumption)
 
-        def actualisation(self, detla_t):
+        def actualisation(self, delta_t):
             self.bouteilles_pleines -= self.consumption*delta_t
             self.bouteilles_vides += self.consumption*delta_t
         
@@ -55,7 +60,8 @@ class Camion:
         self.bouteilles_vides=0
         self.bouteilles_pleines=0
         self.capacity=80
-        self.usine = ?
+        self.usine = 0
+        self.nature='camion'
         
     @classmethod
     def parametres_trajet(cls, depart, destination):
@@ -132,6 +138,8 @@ class Bouteille:
     pass
 
 
+#instancier les usines
+
 df_plants= pd.read_csv('data/plants.csv')
 
 df_plants.insert(0, "Index", range(0, len(df_plants)))
@@ -139,6 +147,8 @@ df_plants= df_plants.set_index('Index')
 
 for k in range(len(df_plants)):
     reseau.usines.append(Client(df_plants['coord_x'][k],df_plants['coord_y'][k],df_plants['capacity'][k],df_plants['init'][k],df_plants['refill'][k],k))
+
+#instancier les clients
 
 df_clients=pd.read_csv('data/clients.csv')
 
@@ -148,4 +158,6 @@ df_clients= df_clients.set_index('Index')
 for k in range(len(df_clients)):
     reseau.clients.append(Client(df_clients['coord_x'][k],df_clients['coord_y'][k],df_clients['capacity'][k],df_clients['init'][k],df_clients['consumption'][k],k))
 
- 
+#instancier les camions
+
+
