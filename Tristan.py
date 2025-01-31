@@ -36,7 +36,7 @@ def livraison_client(camion, client):
 
 
 
-def recharge_camion(camion, client):
+def recharge_camion(camion, usine):
     # Cas où les camions sont toujours pleins car ils repassent à l'usine après chaque livraison
     echange1 = min(camion.bouteilles_vides, usine.bouteilles_pleines)
     usine.bouteilles_pleines -= echange1
@@ -52,8 +52,8 @@ def recharge_camion(camion, client):
         echange_2b = min(camion.capacity-camion.bouteilles_tot(), usine.bouteilles_pleines)
         camion.bouteilles_pleines += echange_2b
         usine.bouteilles_pleines -= echange_2b
-        COST -= echange1 * 40
-        assert(camion.bouteilles_tot <= camion.capacity)
+        COST -= echange2 * 40
+    assert(camion.bouteilles_tot <= camion.capacity)
     assert(usine.bouteilles_tot <= usine.capacity)
     assert(client.bouteilles_tot <= client.capacity)
 
