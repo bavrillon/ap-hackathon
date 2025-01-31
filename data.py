@@ -33,6 +33,10 @@ class Client:
 class Camion:
     def __init__(self,id):
         self.id=id
+
+class Trajet:
+    def __init__(self,ID,start,stop,nb_bouteilles):
+        self.ID=ID
         
 
 class Bouteille:
