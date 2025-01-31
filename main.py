@@ -24,7 +24,7 @@ while TIME <= 30 :
         prochain_client = camion.usine.clients[0]
         autonomie_min = 200000
         for client in camion.usine.clients :      
-            if client.autonomy() <= autonomie_min :
+            if client.autonomy() <= autonomie_min and client not in [camion[2] for camion in reseau.file_events.file] :
                 prochain_client = client
         prochain_arret = prochain_client
     elif position_actuelle.nature == client :
