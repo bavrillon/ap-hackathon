@@ -1,9 +1,12 @@
 import heapq
-import ....
+from Classes import *
 
 
 reseau = Reseau()
 TIME = 0 # en jours
+
+while TIME <= 30 :
+    reseau.file_events.obtenir_prochain_evenement()
 
 class FilePrioriteEvenements:
     def __init__(self):
