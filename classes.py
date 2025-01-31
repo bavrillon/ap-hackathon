@@ -55,6 +55,7 @@ class Camion:
         self.bouteilles_vides=0
         self.bouteilles_pleines=0
         self.capacity=80
+        self.usine = ?
         
     @classmethod
     def parametres_trajet(cls, depart, destination):
