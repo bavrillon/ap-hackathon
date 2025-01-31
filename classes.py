@@ -58,7 +58,7 @@ class Camion:
         
     @classmethod
     def parametres_trajet(cls, depart, destination):
-        vitesse = 50
+        vitesse = 50 * 24 #en km/jour
         cout_kilometrique = 0.10
         distance = np.sqrt((depart.coord_x - depart.coord_x)**2 + (destination.coord_y - destination.coord_y)**2)
         duree_trajet = distance / vitesse
