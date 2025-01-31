@@ -42,6 +42,7 @@ class Camion:
         self.bouteilles_vides=0
         self.bouteilles_pleines=0
         self.bouteilles_tot=self.bouteilles_pleines+self.bouteilles_vides
+        self.capacity=80
 
 class Trajet:
     def __init__(self, ID, date_start, date_end, departure, destination, nb_bouteilles):
