@@ -4,12 +4,12 @@ from Classes import *
 
 reseau = Reseau()
 TIME = 0 # en jours
-COST = 0
+BILAN = 0
 
 while TIME <= 30 :
     camion_arrivee = reseau.file_events.obtenir_prochain_evenement()
     tps_arrivee, depart, destination, caminon = camion_arrivee
-    COST += Camion.parametres_trajet(destination, camion.usine)[1]      # On facture le trajet usine -> client_arrivée
+    BILAN += Camion.parametres_trajet(destination, camion.usine)[1]      # On facture le trajet usine -> client_arrivée
     delta_t = TIME
     TIME = prochain_camion[0]
     delta_t = TIME - delta_t
@@ -25,4 +25,4 @@ while TIME <= 30 :
             prochain_client = client.ID
     tps_trajet = Camion.parametres_trajet(destination, camion.usine)[0] + Camion.parametres_trajet(prochain_client, camion.usine)[0]
     reseau.file_events.ajouter_evenement(tps_trajet, destination, prochain_client, camion.usine)
-    COST += Camion.parametres_trajet(destination, camion.usine)[1]                          # On facture le trajet client_depart -> usine
+    BILAN += Camion.parametres_trajet(destination, camion.usine)[1]                          # On facture le trajet client_depart -> usine
