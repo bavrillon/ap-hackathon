@@ -2,14 +2,13 @@ import heapq
 from Classes import *
 
 
-reseau = Reseau()
 TIME = 0 # en jours
 BILAN = 0
 
 while TIME <= 30 :
     camion_arrivee = reseau.file_events.obtenir_prochain_evenement()
     tps_arrivee, depart, destination, camion = camion_arrivee
-    BILAN += Camion.parametres_trajet(destination, camion.usine)[1]      # On facture le trajet usine -> client_arrivée
+    BILAN += Camion.parametres_trajet(destination, camion.usine)[1]      # On facture le dernier trajet
     delta_t = TIME
     TIME = prochain_camion[0]
     delta_t = TIME - delta_t
@@ -18,11 +17,15 @@ while TIME <= 30 :
     for client in reseau.clients :          # On actualise le stock des clients
         client.actualisation(delta_t)
     # On redirige le camion :
-    prochain_client = 20000
-    autonomie_min = 20000
-    for client in usine.clients :      
-        if client.autonomy() <= autonomie_min :
-            prochain_client = client.ID
-    tps_trajet = Camion.parametres_trajet(destination, camion.usine)[0] + Camion.parametres_trajet(prochain_client, camion.usine)[0]
-    reseau.file_events.ajouter_evenement(tps_trajet, destination, prochain_client, camion.usine)
-    BILAN += Camion.parametres_trajet(destination, camion.usine)[1]                          # On facture le trajet client_depart -> usine
+    position_actuelle = destination
+    if destination.nature == usine :
+        prochain_client = camion.usine.clients[0]
+        autonomie_min = 200000
+        for client in camion.usine.clients :      
+            if client.autonomy() <= autonomie_min :
+                prochain_client = client
+        prochain_arret = prochain_client
+    elif destination.nature == client :
+        prochain_arret = camion.usine
+    tps_trajet = Camion.parametres_trajet(position_actuelle, prochain_arret)[0]
+    reseau.file_events.ajouter_evenement(tps_trajet, position_actuelle, prochain_arret, camion.usine)
