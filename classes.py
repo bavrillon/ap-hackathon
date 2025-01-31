@@ -6,7 +6,8 @@ import pandas as pd
 class Reseau:
     def __init__(self):
         self.usines = []
-        self.clients = []        
+        self.clients = []
+        self.file_events = FilePrioriteEvenements
 
 class Usine:
     def __init__(self, coord_x,coord_y,capacity,init, refill,ID):
