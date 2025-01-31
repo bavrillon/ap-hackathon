@@ -117,20 +117,13 @@ class FilePrioriteEvenements:
     def __init__(self):
         self.file = []
     
-    def ajouter_evenement(self, tps_trajet, depart, destination):
+    def ajouter_evenement(self, tps_trajet, depart, destination, usine):
         tps_arrivee = TIME + tps_trajet  
-        heapq.heappush(self.file, (tps_arrivee, depart, destination))
-        COST -= Camion.parametres_trajet(depart, destination)[1]
+        heapq.heappush(self.file, (tps_arrivee, depart, destination, usine))
 
     def obtenir_prochain_evenement(self):
-        prochain_evenement = heapq.heappop(self.file)
-        delta_t = TIME
-        TIME = prochain_evenement[0]
-        delta_t = TIME - delta_t
-        for usine in reseau.usines :
-            usine.actualisation(delta_t)
-        for client in reseau.clients :
-            client.actualisation(delta_t)
+        prochain_camion = heapq.heappop(self.file)
+        return(prochain_camion)
 
 
 
